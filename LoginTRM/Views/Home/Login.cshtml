@@ -1,0 +1,78 @@
+@{
+    Layout = null;
+}
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/login_resources/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="~/login_resources/css/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="~/login_resources/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="~/login_resources/css/style.css">
+
+    <title>Login</title>
+  </head>
+  <body>
+  
+
+  <div class="d-lg-flex half">
+    <div class="bg order-1 order-md-2" style="
+    background-image: -webkit-gradient(linear, left top, right top, from(rgba(8, 19, 92, 0.6)), to(rgba(8, 19, 92, 0.6))), url(.'../login_resources/images/slider-bdg.jpg');
+  background-image: -webkit-linear-gradient(left, rgba(8, 19, 92, 0.6), rgba(8, 19, 92, 0.6)), url('../login_resources/images/slider-bdg.jpg');
+  background-image: -moz-linear-gradient(left, rgba(8, 19, 92, 0.6), rgba(8, 19, 92, 0.6)), url('../login_resources/images/slider-bdg.jpg');
+  background-image: -o-linear-gradient(left, rgba(8, 19, 92, 0.6), rgba(8, 19, 92, 0.6)), url('../login_resources/images/slider-bdg.jpg');
+  background-image: linear-gradient(to right, rgba(8, 19, 92, 0.6), rgba(8, 19, 92, 0.6)), url('../login_resources/images/slider-bdg.jpg');"></div>
+    <div class="contents order-2 order-md-1">
+
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-7">
+            <h3>Login <strong>Conversor de moneda</strong></h3>
+            <p class="mb-4">Alumnos: Carlos Humberto Reyes Benavides, Bryan Roberto Quezada Ponce</p>
+            <form method="post" autocomplete="off" asp-action="IniciarSesion" asp-controller="Home" >
+              <div class="form-group first">
+                <label for="username">Usuario</label>
+                <input type="text" class="form-control" placeholder="usuario" id="username" name="username" required>
+              </div>
+              <div class="form-group last mb-3">
+                <label for="contrasenya">Contraseña</label>
+                <input type="password" class="form-control" placeholder="Contaseña" id="contrasenya" name="contrasenya" required>
+              </div>
+              
+              <div class="d-flex mb-5 align-items-center">
+                <label class="control control--checkbox mb-0"><span class="caption">Recuerdame</span>
+                  <input type="checkbox" checked="checked"/>
+                  <div class="control__indicator"></div>
+                </label>
+                <span class="ml-auto"><a href="#" class="forgot-pass">README</a></span> 
+              </div>
+
+              <input type="submit" value="Iniciar Sesión" class="btn btn-block btn-primary">
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+    
+    
+
+    <script src="~/login_resources/js/jquery-3.3.1.min.js"></script>
+    <script src="~/login_resources/js/popper.min.js"></script>
+    <script src="~/login_resources/js/bootstrap.min.js"></script>
+    <script src="~/login_resources/js/main.js"></script>
+  </body>
+</html>

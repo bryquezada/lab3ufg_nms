@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/default.xml"/>
+	<include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+	
+	<springProperty name="appname" source="application.name"/>
+	<springProperty name="logstash" source="logstash.host"/>
+	
+	<appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<destination>${logstash}</destination>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder">
+			<includeCallerData>true</includeCallerData>
+			<customField>"appname": "${appname}"</customField>
+		</encoder>
+	</appender>
+	
+	<appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder">
+			<includeCallerData>true</includeCallerData>
+			<customField>"appname": "${appname}"</customField>
+		</encoder>
+	</appender>
+	
+	<root level="INFO">
+		<appender-ref ref="STASH" />
+		<appender-ref ref="JSON" />
+	</root>
+	<logger name="servicio" level="ERROR">
+		<appender-ref ref="STASH" />
+		<appender-ref ref="JSON" />
+	</logger>
+	
+</configuration>

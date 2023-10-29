@@ -1,0 +1,156 @@
+@{
+    Layout = null;
+}
+@{
+    ViewData["Title"] = "Conversor Page";
+}
+@model Conversor
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Conversor Moneda</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="~/conversor_resources/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+
+  <!-- font awesome style -->
+  <link href="~/conversor_resources/css/font-awesome.min.css" rel="stylesheet" />
+  <!-- nice select -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+
+  <!-- Custom styles for this template -->
+  <link href="~/conversor_resources/css/style.css?v=3" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="~/conversor_resources/css/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="#">
+            <span>
+              DOCKER & K8S
+            </span>
+          </a>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class="slider_section ">
+      <div class="container ">
+        <div class="row">
+          <div class="col-lg-7 col-md-8 mx-auto">
+            <div class="detail-box">
+              <h1>
+                CONVERSOR <br>
+                DE MONEDAS
+              </h1>
+              <p>
+                consulta a los microservicios
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="find_container ">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <form method="post" autocomplete="off" asp-action="Moneda" asp-controller="Conversor">
+                  <div class="form-row ">
+                    <div class="form-group col-lg-3">
+                      <input type="number" class="form-control" asp-for="txtValor" id="txtValor" name="txtValor" placeholder="cantidad" required>
+                    </div>
+                    <div class="form-group col-lg-3">
+                      <select name="" class="form-control wide" asp-for="selIntercambio" id="selIntercambio" name="selIntercambio">
+                        <option value="dolar">Dolar</option>
+                        <option value="colon_sv">Colon Salvadoreño</option>
+                        <option value="euro">Euro</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-lg-3">
+                      <select name="" class="form-control wide" asp-for="selMoneda" id="selMoneda" name="selMoneda">
+                        <option value="colon_sv">Colon Salvadoreño</option>
+                        <option value="dolar">Dolar</option>
+                        <option value="euro">Euro</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-lg-3">
+                      <div class="btn-box">
+                        <button type="submit" class="btn ">Consultar</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div clas="row">
+                    <input type="text" class="form-control" asp-for="usuario" id="usuario" name="usuario" hidden>
+                    <input type="text" class="form-control" asp-for="jwt" id="jwt" name="jwt" hidden>
+                    <div class="form-group col-lg-9">
+                      <input type="text" class="form-control" id="txtResutado" name="txtResutado" placeholder="resultado">
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            </br>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- end slider section -->
+  </div>
+
+
+  <!-- footer section -->
+  <footer class="footer_section">
+    <div class="container">
+      <p>
+        &copy; <span id="displayYear"></span> Carlos Reyes |
+        Bryan Quezada
+      </p>
+    </div>
+  </footer>
+  <!-- footer section -->
+
+  <!-- jQery -->
+  <script src="~/conversor_resources/js/jquery-3.4.1.min.js"></script>
+  <!-- bootstrap js -->
+  <script src="~/conversor_resources/js/bootstrap.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+  <!-- custom js -->
+  <script src="~/conversor_resources/js/custom.js"></script>
+
+  @if(TempData["resultado"] != null){
+    <script type="text/javascript">
+        $(document).ready(function () {
+                console.log("trae resultado");
+                document.getElementById("txtResutado").value = '@Html.Raw(TempData["resultado"])';
+            });
+    </script>
+    @TempData.Remove("resultado");
+  }
+
+
+</body>
+
+</html>

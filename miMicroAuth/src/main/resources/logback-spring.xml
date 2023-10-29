@@ -1,0 +1,15 @@
+<configuration>
+	<springProperty name="LOGHOST" source="logstash.host" defaultValue="localhost:5001"></springProperty>
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>${LOGHOST}</destination>
+        <!-- Otros ajustes, como codificador, formato, etc. -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern> %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n </Pattern>
+        </encoder>
+        <customFields>{"index":"mimicroauthlog"}</customFields>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="logstash"/>
+    </root>
+</configuration>
