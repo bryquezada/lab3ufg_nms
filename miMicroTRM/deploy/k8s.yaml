@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+     app: mimicrotrm
+  name: mimicrotrm
+  namespace: despliegues1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mimicrotrm
+  template:
+      metadata:
+        labels:
+          app: mimicrotrm
+      spec:
+        containers:
+        - name: mimicrotrm-k8s-cfg
+          image: calireyes/mimicrotrm:1.2
+          imagePullPolicy: Always
+          env:
+          - name: url1
+            valueFrom:
+              configMapKeyRef:
+                name: cfg-mimicrotrm
+                key: url1
+          - name: jwttime
+            valueFrom:
+              configMapKeyRef:
+                name: cfg-mimicrotrm
+                key: jwttime
+          - name: loghost
+            valueFrom:
+              configMapKeyRef:
+                name: cfg-mimicrotrm
+                key: loghost
+          - name: username1
+            valueFrom:
+              secretKeyRef:
+                name: cfg-secret-mimicrotrm
+                key: username1
+          - name: password1
+            valueFrom:
+              secretKeyRef:
+                name: cfg-secret-mimicrotrm
+                key: password1
+          - name: jwtsecret
+            valueFrom:
+              secretKeyRef:
+                name: cfg-secret-mimicrotrm
+                key: jwtsecret
+          #envFrom:
+          #- configMapRef:
+          #       name: cfg-mimicrotrm
+          #- secretKeyRef:
+          #       name: cfg-secret-mimicrotrm
+          #       key: username1
+          #- secretKeyRef:
+          #       name: cfg-secret-mimicrotrm
+          #       key: password1
+          #### 
+          #env:
+          #- name: TRM
+          #  value: "8.75"
+          ports:
+          - containerPort: 8082
+            protocol: TCP
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "200m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+     app: mimicrotrm
+  name: mimicrotrm
+  namespace: despliegues1
+spec:
+  type: LoadBalancer
+  selector:
+    app: mimicrotrm
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8082
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-mimicrotrm
+  namespace: despliegues1
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mimicrotrm
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50

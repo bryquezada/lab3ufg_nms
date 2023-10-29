@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+     app: mimicroauth
+  name: mimicroauth
+  namespace: despliegues2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mimicroauth
+  template:
+      metadata:
+        labels:
+          app: mimicroauth
+      spec:
+        containers:
+        - name: mimicroauth-k8s-cfg
+          image: calireyes/mimicroauth:1.0
+          imagePullPolicy: Always
+          env:
+          - name: url1
+            valueFrom:
+              configMapKeyRef:
+                name: cfg-mimicroauth
+                key: url1
+          - name: jwttime
+            valueFrom:
+              configMapKeyRef:
+                name: cfg-mimicroauth
+                key: jwttime
+          - name: loghost
+            valueFrom:
+              configMapKeyRef:
+                name: cfg-mimicroauth
+                key: loghost
+          - name: username1
+            valueFrom:
+              secretKeyRef:
+                name: cfg-secret-mimicroauth
+                key: username1
+          - name: password1
+            valueFrom:
+              secretKeyRef:
+                name: cfg-secret-mimicroauth
+                key: password1
+          - name: jwtsecret
+            valueFrom:
+              secretKeyRef:
+                name: cfg-secret-mimicroauth
+                key: jwtsecret
+          #envFrom:
+          #- configMapRef:
+          #       name: cfg-mimicroauth
+          #- secretKeyRef:
+          #       name: cfg-secret-mimicroauth
+          #       key: username1
+          #- secretKeyRef:
+          #       name: cfg-secret-mimicroauth
+          #       key: password1
+          #### 
+          #env:
+          #- name: TRM
+          #  value: "8.75"
+          ports:
+          - containerPort: 8084
+            protocol: TCP
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "200m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+     app: mimicroauth
+  name: mimicroauth
+  namespace: despliegues2
+spec:
+  type: LoadBalancer
+  selector:
+    app: mimicroauth
+  ports:
+    - protocol: TCP
+      port: 8085
+      targetPort: 8084
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-mimicroauth
+  namespace: despliegues2
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mimicroauth
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
